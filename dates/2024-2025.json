@@ -1,0 +1,43 @@
+{
+    "Fall 2024": {
+        "instruction-starts": "2024-09-26",
+        "instruction-ends": "2024-12-06",
+        "holidays": [
+            [
+                "Veterans Day Holiday",
+                "2024-11-11"
+            ],
+            [
+                "Thanksgiving Holiday",
+                [
+                    "2024-11-28",
+                    "2024-11-29"
+                ]
+            ]
+        ]
+    },
+    "Winter 2025": {
+        "instruction-starts": "2025-01-06",
+        "instruction-ends": "2025-03-14",
+        "holidays": [
+            [
+                "Martin Luther King, Jr. Holiday",
+                "2025-01-20"
+            ],
+            [
+                "Presidents' Day Holiday",
+                "2025-02-17"
+            ]
+        ]
+    },
+    "Spring 2025": {
+        "instruction-starts": "2025-03-31",
+        "instruction-ends": "2025-06-06",
+        "holidays": [
+            [
+                "Memorial Day observance",
+                "2025-05-26"
+            ]
+        ]
+    }
+}

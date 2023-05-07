@@ -1,0 +1,268 @@
+#! /usr/bin/env python
+"""Scrapes dates from UCSD's official academic calendar."""
+
+import argparse
+import datetime
+import json
+import re
+import typing
+
+import bs4
+import requests
+
+# if a description contains any of the following, it's considered a holiday
+HOLIDAY_FRAGMENTS = ['holiday', 'observed', 'observance']
+
+
+def find_index_of_first(iterable, predicate):
+    """Returns the first index where the predicate is True.
+
+    Raises a ValueError if the predicate is never true.
+
+    """
+    for ix, item in enumerate(iterable):
+        if predicate(item):
+            return ix
+    raise ValueError
+
+
+def get_html(year: str) -> str:
+    """Returns the HTML for the page containing the academic calendar.
+
+    Parameters
+    ----------
+    year : str
+        The first year in the academic year whose URL should be obtained. For example,
+        to get the 2022-2023 academic year URL, use "2022".
+
+    Returns
+    -------
+    str
+        The HTML of the webpage
+
+    """
+    url = f"https://blink.ucsd.edu/instructors/resources/academic/calendars/{year}.html"
+    response = requests.get(url)
+    return response.content.decode()
+
+
+def parse_calendar_date(
+    s: str, year: int
+) -> typing.Union[datetime.date, typing.Tuple[(datetime.date, datetime.date)]]:
+    """Parses a date or a date range from a string.
+
+    The UCSD academic calendar uses a variety of date formats, including:
+
+        Monday, February 15
+        Saturday – Saturday, March 13–20
+        Thursday – Friday, March 30 – April 5
+        Friday, Monday, December 23, 26
+
+    This function tries to parse such dates or date ranges into a datetime.date (or a
+    pair of datetime.dates).
+
+    All date ranges are assumed to be within the same calendar year.
+
+    """
+    s = s.lower()
+
+    months = [
+        "january",
+        "february",
+        "march",
+        "april",
+        "may",
+        "june",
+        "july",
+        "august",
+        "september",
+        "october",
+        "november",
+        "december",
+    ]
+
+    # our approach will be to tokenize the string and throw out everything
+    # before the first month name, and then anything after that isn't a month name or
+    # number. This will result in one of three possibilities:
+    #   [ "March", "25" ]
+    # or
+    #   [ "March", "25", "30" ]
+    # or
+    #   [ "March", "25", "April", "5"]
+
+    # replace all non-alphanumeric chars with spaces
+    s = re.sub(r"[^A-z0-9]", " ", s)
+
+    # remove redundant spaces
+    s = re.sub(r" +", " ", s)
+
+    tokens = s.split()
+    ix = find_index_of_first(tokens, lambda w: w in months)
+    tokens = tokens[ix:]
+
+    # convert numbers to ints
+    tokens = [int(t) if t.isnumeric() else t for t in tokens]
+
+    if len(tokens) == 2:
+        month, date = tokens
+        month = months.index(str(month)) + 1
+        return datetime.date(year, month, int(date))
+    else:
+        if len(tokens) == 3:
+            # e.g., [ "March", 25, 30 ]
+            month_1 = month_2 = tokens[0]
+            date_1, date_2 = tokens[1:]
+        else:
+            # e.g., [ "March", 25, "April", 5]
+            month_1 = tokens[0]
+            month_2 = tokens[2]
+            date_1, date_2 = tokens[1], tokens[3]
+        month_1 = months.index(str(month_1)) + 1
+        month_2 = months.index(str(month_2)) + 1
+        return (
+            datetime.date(year, month_1, int(date_1)),
+            datetime.date(year, month_2, int(date_2)),
+        )
+
+
+def _test_date_parser():
+    s = "Monday, February 15"
+    assert parse_calendar_date(s, 2023) == datetime.date(2023, 2, 15)
+
+    s = "Saturday – Saturday, March 13–20"
+    assert parse_calendar_date(s, 2023) == (
+        datetime.date(2023, 3, 13),
+        datetime.date(2023, 3, 20),
+    )
+
+    s = "Thursday – Friday, March 30 – April 5"
+    assert parse_calendar_date(s, 2023) == (
+        datetime.date(2023, 3, 30),
+        datetime.date(2023, 4, 5),
+    )
+
+    s = "Friday, Monday, December 23, 26"
+    assert parse_calendar_date(s, 2023) == (
+        datetime.date(2023, 12, 23),
+        datetime.date(2023, 12, 26),
+    )
+
+
+def parse_quarter_rows(rows: typing.List[bs4.BeautifulSoup], year: int) -> dict:
+    """Parses the rows from a quarter in the calendar table into a dictionary of dates.
+
+    This will only extract some of the dates -- the ones useful for making a quarterly
+    planner. In particular, the resulting dictionary will contain the following:
+
+        - instruction-starts: the date that instruction starts
+        - instruction-ends: the date that instruction ends
+        - holidays
+
+    The holidays key points to a list of pairs. The first element in the pair is the
+    name of the holiday. The second element is either a datetime.date or a pair of
+    datetime.dates specifying an (inclusive) date range.
+
+    Parameters
+    ----------
+    rows
+        The rows from the quarter's part of the calendar.
+
+    Returns
+    dict
+        A dictionary of important dates from the quarter.
+
+    """
+    # the only relevant rows are those with two columns; parse those into pairs of
+    # strings, and throw everything else out
+    pairs = []
+    for row in rows:
+        columns = row.find_all("td")
+        if columns is None:
+            continue
+        if len(columns) != 2:
+            continue
+        first, second = columns
+        pairs.append((first.text, second.text))
+
+    # keep only dates between the beginning of the quarter and the end
+    try:
+        start_ix = find_index_of_first(
+            pairs, lambda p: p[0].lower() == "instruction begins"
+        )
+    except ValueError:
+        return {}
+
+    end_ix = find_index_of_first(pairs, lambda p: p[0].lower() == "instruction ends")
+
+    dates = {}
+
+    dates['instruction-starts'] = parse_calendar_date(pairs[start_ix][1], year)
+    dates['instruction-ends'] = parse_calendar_date(pairs[end_ix][1], year)
+    dates['holidays'] = []
+
+    def is_holiday(s):
+        return any(f in s.lower() for f in HOLIDAY_FRAGMENTS)
+
+    for description, datestr in pairs[start_ix + 1 : end_ix]:
+        if not is_holiday(description):
+            continue
+
+        date = parse_calendar_date(datestr, year)
+        dates['holidays'].append((description, date))
+
+    return dates
+
+
+def parse_calendar_page(html: str) -> dict:
+    """Parses the academic calendar page html into a "dates dictionary".
+
+    See the module documentation for the structure of the dates dictionary.
+
+    Parameter
+    ---------
+    html : str
+        The page's HTML.
+
+    Returns
+    -------
+    dict
+        The dates dictionary scraped from the HTML.
+
+    """
+    soup = bs4.BeautifulSoup(html, features="lxml")
+    table = soup.find("table", class_="styled")
+    rows = table.find_all("tr")
+
+    # a dictionary mapping quarter names to its row in the table
+    quarter_rows = {}
+
+    for row in rows:
+        # the quarter names appear in "th" blocks
+        th = row.find("th")
+        if th is not None:
+            key = th.text
+            continue
+        quarter_rows.setdefault(key, []).append(row)
+
+    dates = {}
+    for quarter_name in quarter_rows:
+        year = int(quarter_name.split()[-1])
+        dates[quarter_name] = parse_quarter_rows(quarter_rows[quarter_name], year)
+
+    return dates
+
+def serializer(obj):
+    """Serialize datetime.dates into JSON strings."""
+    if not isinstance(obj, datetime.date):
+        raise TypeError("Not a date.")
+
+    return obj.strftime("%Y-%m-%d")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("year")
+    args = parser.parse_args()
+
+    html = get_html(args.year)
+    dates = parse_calendar_page(html)
+    print(json.dumps(dates, default=serializer, indent=4))

@@ -1,0 +1,43 @@
+{
+    "Fall 2023": {
+        "instruction-starts": "2023-09-28",
+        "instruction-ends": "2023-12-08",
+        "holidays": [
+            [
+                "Veterans Day Holiday",
+                "2023-11-10"
+            ],
+            [
+                "Thanksgiving Holiday",
+                [
+                    "2023-11-23",
+                    "2023-11-24"
+                ]
+            ]
+        ]
+    },
+    "Winter 2024": {
+        "instruction-starts": "2024-01-08",
+        "instruction-ends": "2024-03-15",
+        "holidays": [
+            [
+                "Martin Luther King, Jr. Holiday",
+                "2024-01-15"
+            ],
+            [
+                "Presidents' Day Holiday",
+                "2024-02-19"
+            ]
+        ]
+    },
+    "Spring 2024": {
+        "instruction-starts": "2024-04-01",
+        "instruction-ends": "2024-06-07",
+        "holidays": [
+            [
+                "Memorial Day observance",
+                "2024-05-27"
+            ]
+        ]
+    }
+}

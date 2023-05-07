@@ -1,0 +1,64 @@
+{
+    "Fall 2022": {
+        "instruction-starts": "2022-09-22",
+        "instruction-ends": "2022-12-02",
+        "holidays": [
+            [
+                "Veterans Day Holiday",
+                "2022-11-11"
+            ],
+            [
+                "Thanksgiving Holiday",
+                [
+                    "2022-11-24",
+                    "2022-11-25"
+                ]
+            ]
+        ]
+    },
+    "Winter 2023": {
+        "instruction-starts": "2023-01-09",
+        "instruction-ends": "2023-03-17",
+        "holidays": [
+            [
+                "Martin Luther King, Jr. Holiday",
+                "2023-01-16"
+            ],
+            [
+                "Presidents' Day Holiday",
+                "2023-02-20"
+            ]
+        ]
+    },
+    "Spring 2023": {
+        "instruction-starts": "2023-04-03",
+        "instruction-ends": "2023-06-09",
+        "holidays": [
+            [
+                "Memorial Day observance",
+                "2023-05-29"
+            ]
+        ]
+    },
+    "Summer Session I 2023": {
+        "instruction-starts": "2023-07-03",
+        "instruction-ends": "2023-08-04",
+        "holidays": [
+            [
+                "Independence Day Holiday",
+                "2023-07-04"
+            ]
+        ]
+    },
+    "Summer Session II 2023": {
+        "instruction-starts": "2023-08-07",
+        "instruction-ends": "2023-09-08",
+        "holidays": [
+            [
+                "Labor Day Holiday",
+                "2023-09-04"
+            ]
+        ]
+    },
+    "Summer Special Session 2023": {}
+}
