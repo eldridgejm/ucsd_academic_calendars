@@ -1,0 +1,98 @@
+\documentclass[legalpaper]{article}
+
+\usepackage[margin=.25in, top=.35in]{geometry}
+\usepackage{tikz}
+\usepackage{pgfkeys}
+\usepackage{parskip}
+\usepackage{xcolor}
+
+\usepackage[sfdefault,lining,semibold,book]{FiraSans}
+\usepackage[medium,scale=.925]{FiraMono}
+\usepackage[mathrm=sym]{unicode-math}
+\usepackage[usefilenames]{firamath-otf}
+
+\newcommand{\quartername}{Summer Session I 2022}
+
+\newcommand{\revised}{May 2023}
+
+\newcommand{\weekheight}{.975}
+\newcommand{\weekgap}{.1}
+\newcommand{\leftgap}{.1}
+\newcommand{\daywidth}{1.077}
+
+\newcommand{\holiday}[1]{%
+    \textcolor{red}{%
+        \textbf{#1}
+    }
+}
+
+\pgfkeys{
+    /weekdays/.is family, /weekdays,
+    % Define the mapping
+    1/.initial = Sun.,
+    2/.initial = Mon.,
+    3/.initial = Tue.,
+    4/.initial = Wed.,
+    5/.initial = Thu.,
+    6/.initial = Fri.,
+    7/.initial = Sat.,
+}
+
+\pgfkeyssetvalue{/notes/2/4}{\holiday{hello this is a test of this}}
+\pgfkeyssetvalue{/notes/5/1}{\holiday{Cesar Chavez Day}}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+{
+    \fontsize{14pt}{20pt}\selectfont
+    \textbf{Quarter Planner}
+    \hfill
+    \tikz[x=1in]{
+        \draw[very thick] (0,0) -- (3.5,0);
+    }
+    \hfill
+    \quartername{}
+}
+
+\vspace{0.1in}
+
+\newcommand{\drawweek}[1]{
+    \pgfmathsetmacro{\yoffset}{#1 * (\weekheight + \weekgap)}
+
+    \ifnum#1=11
+    \node[anchor=base, rotate=90] at (0,\yoffset + .5*\weekheight) {\fontsize{20pt}{12pt}\selectfont Exams};
+    \else
+        % the week number
+        \node[anchor=east] at (0,\yoffset + .5*\weekheight) {\fontsize{20pt}{20pt}\selectfont #1};
+    \fi
+
+    \foreach \daynumber in {1,...,7}{
+        \pgfmathsetmacro{\xoffset}{\leftgap + (\daynumber - 1) * (\daywidth)}
+        \draw[very thick] (\xoffset, \yoffset) rectangle (\xoffset+\daywidth, \yoffset + \weekheight);
+
+        \node[anchor=north west] at (\xoffset, \yoffset) {\pgfkeys{/weekdays/\daynumber}};
+
+        % note node
+        \node[anchor=north west, text width=\daywidth in, align=left] at (\xoffset, \yoffset+.2) {
+            \pgfkeysifdefined{/notes/\weeknumber/\daynumber}{
+                \pgfkeys{/notes/\weeknumber/\daynumber}
+            }{}
+        };
+    }
+
+}
+
+\begin{tikzpicture}[x=1in, y=-1in]
+    \foreach \weeknumber in {0,...,11}{
+        \drawweek{\weeknumber}
+    }
+\end{tikzpicture}
+
+\enlargethispage{1em}
+\hfill
+\footnotesize
+Revised: \revised{}
+
+\end{document}
