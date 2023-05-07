@@ -35,8 +35,16 @@ format:
 
 If a holiday is a list of two dates, this means that it spans that date range.
 
-
 """
+
+# settings =============================================================================
+
+# if an item in the academic calendar contains any of the following, it's
+# considered a holiday
+HOLIDAY_FRAGMENTS = ["holiday", "observed", "observance"]
+
+# =====================================================================================
+
 
 import argparse
 import datetime
@@ -47,8 +55,8 @@ import typing
 import bs4
 import requests
 
-# if a description contains any of the following, it's considered a holiday
-HOLIDAY_FRAGMENTS = ["holiday", "observed", "observance"]
+
+# utility functions --------------------------------------------------------------------
 
 
 def find_index_of_first(iterable, predicate):
@@ -61,6 +69,9 @@ def find_index_of_first(iterable, predicate):
         if predicate(item):
             return ix
     raise ValueError
+
+
+# --------------------------------------------------------------------------------------
 
 
 def get_html(year: str) -> str:
@@ -185,7 +196,7 @@ def _test_date_parser():
     )
 
 
-def parse_quarter_rows(rows: typing.List[bs4.BeautifulSoup], year: int) -> dict:
+def parse_quarter_dates(rows: typing.List[bs4.BeautifulSoup], year: int) -> dict:
     """Parses the rows from a quarter in the calendar table into a dictionary of dates.
 
     This will only extract some of the dates -- the ones useful for making a quarterly
@@ -250,7 +261,7 @@ def parse_quarter_rows(rows: typing.List[bs4.BeautifulSoup], year: int) -> dict:
     return dates
 
 
-def parse_calendar_page(html: str) -> dict:
+def parse_calendar(html: str) -> dict:
     """Parses the academic calendar page html into a "dates dictionary".
 
     See the module documentation for the structure of the dates dictionary.
@@ -284,12 +295,12 @@ def parse_calendar_page(html: str) -> dict:
     dates = {}
     for quarter_name in quarter_rows:
         year = int(quarter_name.split()[-1])
-        dates[quarter_name] = parse_quarter_rows(quarter_rows[quarter_name], year)
+        dates[quarter_name] = parse_quarter_dates(quarter_rows[quarter_name], year)
 
     return dates
 
 
-def serializer(obj):
+def _serialize_dates_as_strings(obj):
     """Serialize datetime.dates into JSON strings."""
     if not isinstance(obj, datetime.date):
         raise TypeError("Not a date.")
@@ -303,5 +314,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     html = get_html(args.year)
-    dates = parse_calendar_page(html)
-    print(json.dumps(dates, default=serializer, indent=4))
+    dates = parse_calendar(html)
+    print(json.dumps(dates, default=_serialize_dates_as_strings, indent=4))
