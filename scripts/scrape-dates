@@ -6,51 +6,46 @@ usage: scrape-data <year>
 The year should be the first year in the academic year. For instance, to get the dates
 for 2022-23, call `scrape-data 2022`.
 
-The result is printed to standard out in the form of a JSON dictionary in the following
-format:
+The results are written to `dates/<academic year>/<quarter>.json` (e.g.,
+`dates/2022-2023/fall.json`), and will look like the following:
 
     {
-        "Fall 2022": {
-            "quarter-starts": "2022-09-19",
-            "quarter-ends": "2022-12-10",
-            "instruction-starts": "2022-09-22",
-            "instruction-ends": "2022-12-02",
-            "final-exams": [
-                "2022-12-03",
-                "2022-12-10"
-            ],
-            "fifteenth-day-of-instruction": null,
-            "holidays": [
-                {
-                    "name": "Veterans Day Holiday",
-                    "date": "2022-11-11",
-                    "during-instruction": true
-                },
-                {
-                    "name": "Thanksgiving Holiday",
-                    "date": [
-                        "2022-11-24",
-                        "2022-11-25"
-                    ],
-                    "during-instruction": true
-                },
-                {
-                    "name": "New Year Holiday",
-                    "date": [
-                        "2022-12-30",
-                        "2022-01-02"
-                    ],
-                    "during-instruction": false
-                }
-            ]
-        },
-        "Winter 2023": {
-            ...
-        },
-        ...
+        "quarter-starts": "2022-09-19",
+        "quarter-ends": "2022-12-10",
+        "instruction-starts": "2022-09-22",
+        "instruction-ends": "2022-12-02",
+        "final-exams": [
+            "2022-12-03",
+            "2022-12-10"
+        ],
+        "fifteenth-day-of-instruction": null,
+        "holidays": [
+            {
+                "name": "Veterans Day Holiday",
+                "date": "2022-11-11",
+                "during-instruction": true
+            },
+            {
+                "name": "Thanksgiving Holiday",
+                "date": [
+                    "2022-11-24",
+                    "2022-11-25"
+                ],
+                "during-instruction": true
+            },
+            {
+                "name": "New Year Holiday",
+                "date": [
+                    "2022-12-30",
+                    "2022-01-02"
+                ],
+                "during-instruction": false
+            }
+        ]
     }
 
-If a holiday is a list of two dates, this means that it spans that date range.
+if a date field contains a list of two dates, this means that the event spans
+that date range.
 
 """
 
@@ -66,6 +61,7 @@ HOLIDAY_FRAGMENTS = ["holiday", "observed", "observance"]
 import argparse
 import datetime
 import json
+import pathlib
 import re
 import typing
 
@@ -379,11 +375,46 @@ def _serialize_dates_as_strings(obj):
     return obj.strftime("%Y-%m-%d")
 
 
+def write_dates(dates: dict, year: int, quarter: str):
+    """Writes the dates to a JSON file under `dates/`.
+
+    Parameters
+    ----------
+    dates : dict
+        The dates dictionary for a particular quarter.
+
+    year : int
+        The first year of the academic year.
+
+    quarter : str
+        The quarter as a string. E.g., "Fall Quarter".
+
+    Notes
+    -----
+    To construct the filename, the year will be removed from the quarter,
+    trailing whitespace removed, and internal whitespace replaced by dashes.
+    Therefore, "Fall Quarter 2022" will be written to "Fall.json", and "Summer
+    Session I" will be written to "Summer-Session-I.json".
+
+    """
+    normalized_quarter = quarter.replace("Quarter", "").strip()
+    normalized_quarter = "-".join(normalized_quarter.split()[:-1])
+
+    dates_dir = pathlib.Path(__file__).parent.parent / 'dates'
+    filepath = dates_dir / f"{year}-{year+1}" / (normalized_quarter + ".json")
+
+    filepath.parent.mkdir(exist_ok=True)
+
+    with filepath.open("w") as fileobj:
+        json.dump(dates, fileobj, default=_serialize_dates_as_strings, indent=4)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("year")
     args = parser.parse_args()
 
     html = get_html(args.year)
-    dates = parse_calendar(html)
-    print(json.dumps(dates, default=_serialize_dates_as_strings, indent=4))
+    all_quarters = parse_calendar(html)
+    for quarter, dates in all_quarters.items():
+        write_dates(dates, int(args.year), quarter)

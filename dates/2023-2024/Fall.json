@@ -1,0 +1,34 @@
+{
+    "quarter-starts": "2023-09-25",
+    "quarter-ends": "2023-12-16",
+    "instruction-starts": "2023-09-28",
+    "instruction-ends": "2023-12-08",
+    "final-exams": [
+        "2023-12-09",
+        "2023-12-16"
+    ],
+    "fifteenth-day-of-instruction": "2023-10-18",
+    "holidays": [
+        {
+            "name": "Veterans Day Holiday",
+            "date": "2023-11-10",
+            "during-instruction": true
+        },
+        {
+            "name": "Thanksgiving Holiday",
+            "date": [
+                "2023-11-23",
+                "2023-11-24"
+            ],
+            "during-instruction": true
+        },
+        {
+            "name": "New Year Holiday",
+            "date": [
+                "2023-12-29",
+                "2024-01-01"
+            ],
+            "during-instruction": false
+        }
+    ]
+}

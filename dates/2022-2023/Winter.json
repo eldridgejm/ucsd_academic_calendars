@@ -1,0 +1,23 @@
+{
+    "quarter-starts": "2023-01-04",
+    "quarter-ends": "2023-03-25",
+    "instruction-starts": "2023-01-09",
+    "instruction-ends": "2023-03-17",
+    "final-exams": [
+        "2023-03-18",
+        "2023-03-25"
+    ],
+    "fifteenth-day-of-instruction": null,
+    "holidays": [
+        {
+            "name": "Martin Luther King, Jr. Holiday",
+            "date": "2023-01-16",
+            "during-instruction": true
+        },
+        {
+            "name": "Presidents' Day Holiday",
+            "date": "2023-02-20",
+            "during-instruction": true
+        }
+    ]
+}

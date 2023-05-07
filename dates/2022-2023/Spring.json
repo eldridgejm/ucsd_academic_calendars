@@ -1,0 +1,23 @@
+{
+    "quarter-starts": "2023-03-29",
+    "quarter-ends": "2023-06-16",
+    "instruction-starts": "2023-04-03",
+    "instruction-ends": "2023-06-09",
+    "final-exams": [
+        "2023-06-10",
+        "2023-06-16"
+    ],
+    "fifteenth-day-of-instruction": null,
+    "holidays": [
+        {
+            "name": "C\u00e9sar Ch\u00e1vez\u00a0Holiday",
+            "date": "2023-03-31",
+            "during-instruction": false
+        },
+        {
+            "name": "Memorial Day observance",
+            "date": "2023-05-29",
+            "during-instruction": true
+        }
+    ]
+}

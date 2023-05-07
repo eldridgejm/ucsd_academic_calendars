@@ -1,0 +1,34 @@
+{
+    "quarter-starts": "2024-09-23",
+    "quarter-ends": "2024-12-14",
+    "instruction-starts": "2024-09-26",
+    "instruction-ends": "2024-12-06",
+    "final-exams": [
+        "2024-12-07",
+        "2024-12-14"
+    ],
+    "fifteenth-day-of-instruction": "2024-10-16",
+    "holidays": [
+        {
+            "name": "Veterans Day Holiday",
+            "date": "2024-11-11",
+            "during-instruction": true
+        },
+        {
+            "name": "Thanksgiving Holiday",
+            "date": [
+                "2024-11-28",
+                "2024-11-29"
+            ],
+            "during-instruction": true
+        },
+        {
+            "name": "New Year Holiday",
+            "date": [
+                "2024-12-31",
+                "2024-01-01"
+            ],
+            "during-instruction": false
+        }
+    ]
+}

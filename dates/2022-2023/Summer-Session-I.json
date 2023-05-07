@@ -1,0 +1,23 @@
+{
+    "quarter-starts": null,
+    "quarter-ends": null,
+    "instruction-starts": "2023-07-03",
+    "instruction-ends": "2023-08-04",
+    "final-exams": [
+        "2023-08-04",
+        "2023-08-05"
+    ],
+    "fifteenth-day-of-instruction": null,
+    "holidays": [
+        {
+            "name": "Juneteenth Holiday",
+            "date": "2023-06-19",
+            "during-instruction": false
+        },
+        {
+            "name": "Independence Day Holiday",
+            "date": "2023-07-04",
+            "during-instruction": true
+        }
+    ]
+}
