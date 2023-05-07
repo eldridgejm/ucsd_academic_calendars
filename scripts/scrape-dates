@@ -1,5 +1,42 @@
 #! /usr/bin/env python
-"""Scrapes dates from UCSD's official academic calendar."""
+"""Scrapes dates from UCSD's official academic calendar.
+
+usage: scrape-data <year>
+
+The year should be the first year in the academic year. For instance, to get the dates
+for 2022-23, call `scrape-data 2022`.
+
+The result is printed to standard out in the form of a JSON dictionary in the following
+format:
+
+    {
+        "Fall 2022": {
+            "instruction-starts": "2022-09-22",
+            "instruction-ends": "2022-12-02",
+            "holidays": [
+                [
+                    "Veterans Day Holiday",
+                    "2022-11-11"
+                ],
+                [
+                    "Thanksgiving Holiday",
+                    [
+                        "2022-11-24",
+                        "2022-11-25"
+                    ]
+                ]
+            ]
+        },
+        "Winter 2023": {
+            ...
+        },
+        ...
+    }
+
+If a holiday is a list of two dates, this means that it spans that date range.
+
+
+"""
 
 import argparse
 import datetime
@@ -11,7 +48,7 @@ import bs4
 import requests
 
 # if a description contains any of the following, it's considered a holiday
-HOLIDAY_FRAGMENTS = ['holiday', 'observed', 'observance']
+HOLIDAY_FRAGMENTS = ["holiday", "observed", "observance"]
 
 
 def find_index_of_first(iterable, predicate):
@@ -196,9 +233,9 @@ def parse_quarter_rows(rows: typing.List[bs4.BeautifulSoup], year: int) -> dict:
 
     dates = {}
 
-    dates['instruction-starts'] = parse_calendar_date(pairs[start_ix][1], year)
-    dates['instruction-ends'] = parse_calendar_date(pairs[end_ix][1], year)
-    dates['holidays'] = []
+    dates["instruction-starts"] = parse_calendar_date(pairs[start_ix][1], year)
+    dates["instruction-ends"] = parse_calendar_date(pairs[end_ix][1], year)
+    dates["holidays"] = []
 
     def is_holiday(s):
         return any(f in s.lower() for f in HOLIDAY_FRAGMENTS)
@@ -208,7 +245,7 @@ def parse_quarter_rows(rows: typing.List[bs4.BeautifulSoup], year: int) -> dict:
             continue
 
         date = parse_calendar_date(datestr, year)
-        dates['holidays'].append((description, date))
+        dates["holidays"].append((description, date))
 
     return dates
 
@@ -251,12 +288,14 @@ def parse_calendar_page(html: str) -> dict:
 
     return dates
 
+
 def serializer(obj):
     """Serialize datetime.dates into JSON strings."""
     if not isinstance(obj, datetime.date):
         raise TypeError("Not a date.")
 
     return obj.strftime("%Y-%m-%d")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
