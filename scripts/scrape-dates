@@ -19,6 +19,7 @@ format:
                 "2022-12-03",
                 "2022-12-10"
             ],
+            "fifteenth-day-of-instruction": null,
             "holidays": [
                 {
                     "name": "Veterans Day Holiday",
@@ -199,14 +200,15 @@ def parse_calendar_date(
         first_month, first_date, first_year = tokens[0:3]
         first_month = months.index(first_month) + 1
 
-        second_month, second_date, second_year = tokens[second_month_ix:second_month_ix+3]
+        second_month, second_date, second_year = tokens[
+            second_month_ix : second_month_ix + 3
+        ]
         second_month = months.index(second_month) + 1
 
         return (
             datetime.date(first_year, first_month, first_date),
-            datetime.date(second_year, second_month, second_date)
+            datetime.date(second_year, second_month, second_date),
         )
-
 
 
 def _test_date_parser():
@@ -288,11 +290,20 @@ def parse_quarter_dates(rows: typing.List[bs4.BeautifulSoup], year: int) -> dict
     dates["quarter-ends"] = date_of_match(lambda p: "quarter end" in p[0].lower())
 
     # find when instruction begins and ends
-    dates["instruction-starts"] = date_of_match(lambda p: p[0].lower() == "instruction begins")
-    dates["instruction-ends"] = date_of_match(lambda p: p[0].lower() == "instruction ends")
+    dates["instruction-starts"] = date_of_match(
+        lambda p: p[0].lower() == "instruction begins"
+    )
+    dates["instruction-ends"] = date_of_match(
+        lambda p: p[0].lower() == "instruction ends"
+    )
 
     # find final exams
     dates["final-exams"] = date_of_match(lambda p: p[0].lower() == "final exams")
+
+    # find fifteenth day of instruction
+    dates["fifteenth-day-of-instruction"] = date_of_match(
+        lambda p: "fifteenth day" in p[0].lower()
+    )
 
     # find all holidays, including those before and after the instruction ends
     def is_holiday(s):
@@ -303,23 +314,19 @@ def parse_quarter_dates(rows: typing.List[bs4.BeautifulSoup], year: int) -> dict
         date = parse_calendar_date(date, year)
 
         def is_during_instruction(d):
-            return dates['instruction-starts'] <= d <= dates['instruction-ends']
+            return dates["instruction-starts"] <= d <= dates["instruction-ends"]
 
         if isinstance(date, tuple):
-            during_instruction = is_during_instruction(date[0]) or is_during_instruction(date[1])
+            during_instruction = is_during_instruction(
+                date[0]
+            ) or is_during_instruction(date[1])
         else:
             during_instruction = is_during_instruction(date)
 
-        return {
-            "name": desc,
-            "date": date,
-            "during-instruction": during_instruction
-        }
+        return {"name": desc, "date": date, "during-instruction": during_instruction}
 
     dates["holidays"] = [
-        format_holiday_dict((desc, date))
-        for (desc, date) in pairs
-        if is_holiday(desc)
+        format_holiday_dict((desc, date)) for (desc, date) in pairs if is_holiday(desc)
     ]
 
     return dates
