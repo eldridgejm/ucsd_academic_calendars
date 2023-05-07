@@ -1,64 +1,126 @@
 {
     "Fall 2022": {
+        "quarter-starts": "2022-09-19",
+        "quarter-ends": "2022-12-10",
         "instruction-starts": "2022-09-22",
         "instruction-ends": "2022-12-02",
+        "final-exams": [
+            "2022-12-03",
+            "2022-12-10"
+        ],
         "holidays": [
-            [
-                "Veterans Day Holiday",
-                "2022-11-11"
-            ],
-            [
-                "Thanksgiving Holiday",
-                [
+            {
+                "name": "Veterans Day Holiday",
+                "date": "2022-11-11",
+                "during-instruction": true
+            },
+            {
+                "name": "Thanksgiving Holiday",
+                "date": [
                     "2022-11-24",
                     "2022-11-25"
-                ]
-            ]
+                ],
+                "during-instruction": true
+            },
+            {
+                "name": "New Year Holiday",
+                "date": [
+                    "2022-12-30",
+                    "2022-01-02"
+                ],
+                "during-instruction": false
+            }
         ]
     },
     "Winter 2023": {
+        "quarter-starts": "2023-01-04",
+        "quarter-ends": "2023-03-25",
         "instruction-starts": "2023-01-09",
         "instruction-ends": "2023-03-17",
+        "final-exams": [
+            "2023-03-18",
+            "2023-03-25"
+        ],
         "holidays": [
-            [
-                "Martin Luther King, Jr. Holiday",
-                "2023-01-16"
-            ],
-            [
-                "Presidents' Day Holiday",
-                "2023-02-20"
-            ]
+            {
+                "name": "Martin Luther King, Jr. Holiday",
+                "date": "2023-01-16",
+                "during-instruction": true
+            },
+            {
+                "name": "Presidents' Day Holiday",
+                "date": "2023-02-20",
+                "during-instruction": true
+            }
         ]
     },
     "Spring 2023": {
+        "quarter-starts": "2023-03-29",
+        "quarter-ends": "2023-06-16",
         "instruction-starts": "2023-04-03",
         "instruction-ends": "2023-06-09",
+        "final-exams": [
+            "2023-06-10",
+            "2023-06-16"
+        ],
         "holidays": [
-            [
-                "Memorial Day observance",
-                "2023-05-29"
-            ]
+            {
+                "name": "C\u00e9sar Ch\u00e1vez\u00a0Holiday",
+                "date": "2023-03-31",
+                "during-instruction": false
+            },
+            {
+                "name": "Memorial Day observance",
+                "date": "2023-05-29",
+                "during-instruction": true
+            }
         ]
     },
     "Summer Session I 2023": {
+        "quarter-starts": null,
+        "quarter-ends": null,
         "instruction-starts": "2023-07-03",
         "instruction-ends": "2023-08-04",
+        "final-exams": [
+            "2023-08-04",
+            "2023-08-05"
+        ],
         "holidays": [
-            [
-                "Independence Day Holiday",
-                "2023-07-04"
-            ]
+            {
+                "name": "Juneteenth Holiday",
+                "date": "2023-06-19",
+                "during-instruction": false
+            },
+            {
+                "name": "Independence Day Holiday",
+                "date": "2023-07-04",
+                "during-instruction": true
+            }
         ]
     },
     "Summer Session II 2023": {
+        "quarter-starts": null,
+        "quarter-ends": null,
         "instruction-starts": "2023-08-07",
         "instruction-ends": "2023-09-08",
+        "final-exams": [
+            "2023-09-08",
+            "2023-09-09"
+        ],
         "holidays": [
-            [
-                "Labor Day Holiday",
-                "2023-09-04"
-            ]
+            {
+                "name": "Labor Day Holiday",
+                "date": "2023-09-04",
+                "during-instruction": true
+            }
         ]
     },
-    "Summer Special Session 2023": {}
+    "Summer Special Session 2023": {
+        "quarter-starts": null,
+        "quarter-ends": null,
+        "instruction-starts": null,
+        "instruction-ends": null,
+        "final-exams": null,
+        "holidays": []
+    }
 }

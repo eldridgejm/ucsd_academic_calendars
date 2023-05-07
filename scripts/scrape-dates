@@ -11,20 +11,36 @@ format:
 
     {
         "Fall 2022": {
+            "quarter-starts": "2022-09-19",
+            "quarter-ends": "2022-12-10",
             "instruction-starts": "2022-09-22",
             "instruction-ends": "2022-12-02",
+            "final-exams": [
+                "2022-12-03",
+                "2022-12-10"
+            ],
             "holidays": [
-                [
-                    "Veterans Day Holiday",
-                    "2022-11-11"
-                ],
-                [
-                    "Thanksgiving Holiday",
-                    [
+                {
+                    "name": "Veterans Day Holiday",
+                    "date": "2022-11-11",
+                    "during-instruction": true
+                },
+                {
+                    "name": "Thanksgiving Holiday",
+                    "date": [
                         "2022-11-24",
                         "2022-11-25"
-                    ]
-                ]
+                    ],
+                    "during-instruction": true
+                },
+                {
+                    "name": "New Year Holiday",
+                    "date": [
+                        "2022-12-30",
+                        "2022-01-02"
+                    ],
+                    "during-instruction": false
+                }
             ]
         },
         "Winter 2023": {
@@ -105,11 +121,13 @@ def parse_calendar_date(
         Saturday – Saturday, March 13–20
         Thursday – Friday, March 30 – April 5
         Friday, Monday, December 23, 26
+        Friday – Monday, December 29, 2023 and January 1, 2024
 
     This function tries to parse such dates or date ranges into a datetime.date (or a
     pair of datetime.dates).
 
-    All date ranges are assumed to be within the same calendar year.
+    All date ranges are assumed to be within the same calendar year unless the date
+    includes two years, as in the last example above.
 
     """
     s = s.lower()
@@ -155,7 +173,7 @@ def parse_calendar_date(
         month, date = tokens
         month = months.index(str(month)) + 1
         return datetime.date(year, month, int(date))
-    else:
+    elif len(tokens) <= 4:
         if len(tokens) == 3:
             # e.g., [ "March", 25, 30 ]
             month_1 = month_2 = tokens[0]
@@ -171,6 +189,24 @@ def parse_calendar_date(
             datetime.date(year, month_1, int(date_1)),
             datetime.date(year, month_2, int(date_2)),
         )
+    else:
+        # we may have a date of the form Friday – Monday, December 29, 2023 and January 1, 2024
+        # which would be tokenized as
+        #   [ "December", 29, 2023, "and", "January", 1, 2024 ]
+        assert tokens[0] in months
+        second_month_ix = find_index_of_first(tokens[1:], lambda w: w in months) + 1
+
+        first_month, first_date, first_year = tokens[0:3]
+        first_month = months.index(first_month) + 1
+
+        second_month, second_date, second_year = tokens[second_month_ix:second_month_ix+3]
+        second_month = months.index(second_month) + 1
+
+        return (
+            datetime.date(first_year, first_month, first_date),
+            datetime.date(second_year, second_month, second_date)
+        )
+
 
 
 def _test_date_parser():
@@ -232,31 +268,59 @@ def parse_quarter_dates(rows: typing.List[bs4.BeautifulSoup], year: int) -> dict
         first, second = columns
         pairs.append((first.text, second.text))
 
-    # keep only dates between the beginning of the quarter and the end
-    try:
-        start_ix = find_index_of_first(
-            pairs, lambda p: p[0].lower() == "instruction begins"
-        )
-    except ValueError:
-        return {}
+    def match(predicate):
+        try:
+            ix = find_index_of_first(pairs, predicate)
+            return pairs[ix]
+        except ValueError:
+            return None
 
-    end_ix = find_index_of_first(pairs, lambda p: p[0].lower() == "instruction ends")
+    def date_of_match(predicate):
+        pair = match(predicate)
+        if pair is None:
+            return None
+        return parse_calendar_date(pair[1], year)
 
     dates = {}
 
-    dates["instruction-starts"] = parse_calendar_date(pairs[start_ix][1], year)
-    dates["instruction-ends"] = parse_calendar_date(pairs[end_ix][1], year)
-    dates["holidays"] = []
+    # find when the quarter begins and ends
+    dates["quarter-starts"] = date_of_match(lambda p: "quarter begin" in p[0].lower())
+    dates["quarter-ends"] = date_of_match(lambda p: "quarter end" in p[0].lower())
 
+    # find when instruction begins and ends
+    dates["instruction-starts"] = date_of_match(lambda p: p[0].lower() == "instruction begins")
+    dates["instruction-ends"] = date_of_match(lambda p: p[0].lower() == "instruction ends")
+
+    # find final exams
+    dates["final-exams"] = date_of_match(lambda p: p[0].lower() == "final exams")
+
+    # find all holidays, including those before and after the instruction ends
     def is_holiday(s):
         return any(f in s.lower() for f in HOLIDAY_FRAGMENTS)
 
-    for description, datestr in pairs[start_ix + 1 : end_ix]:
-        if not is_holiday(description):
-            continue
+    def format_holiday_dict(pair):
+        desc, date = pair
+        date = parse_calendar_date(date, year)
 
-        date = parse_calendar_date(datestr, year)
-        dates["holidays"].append((description, date))
+        def is_during_instruction(d):
+            return dates['instruction-starts'] <= d <= dates['instruction-ends']
+
+        if isinstance(date, tuple):
+            during_instruction = is_during_instruction(date[0]) or is_during_instruction(date[1])
+        else:
+            during_instruction = is_during_instruction(date)
+
+        return {
+            "name": desc,
+            "date": date,
+            "during-instruction": during_instruction
+        }
+
+    dates["holidays"] = [
+        format_holiday_dict((desc, date))
+        for (desc, date) in pairs
+        if is_holiday(desc)
+    ]
 
     return dates
 
