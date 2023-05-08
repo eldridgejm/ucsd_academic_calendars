@@ -11,12 +11,14 @@ from pprint import pprint
 
 
 ROOT = pathlib.Path(__file__).parent.parent
-JSON_DIRPATH = ROOT / 'json'
+JSON_DIRPATH = ROOT / "json"
 
-LATEXMKCMD = 'latexmk -xelatex -outdir=_build -interaction=nonstopmode'
+LATEXMKCMD = "latexmk -xelatex -outdir=_build -interaction=nonstopmode"
+
 
 def load_dates(filepath):
     """Reads the dates from the JSON file containing them. Converts to datetime objects."""
+
     def convert_date(date):
         if date is None:
             return None
@@ -28,19 +30,22 @@ def load_dates(filepath):
     with filepath.open() as fileobj:
         dates = json.load(fileobj)
 
-    dates['quarter-starts'] = convert_date(dates['quarter-starts'])
-    dates['quarter-ends'] = convert_date(dates['quarter-ends'])
-    dates['instruction-starts'] = convert_date(dates['instruction-starts'])
-    dates['instruction-ends'] = convert_date(dates['instruction-ends'])
-    dates['final-exams'] = convert_date(dates['final-exams'])
-    dates['fifteenth-day-of-instruction'] = convert_date(dates['fifteenth-day-of-instruction'])
+    dates["quarter-starts"] = convert_date(dates["quarter-starts"])
+    dates["quarter-ends"] = convert_date(dates["quarter-ends"])
+    dates["instruction-starts"] = convert_date(dates["instruction-starts"])
+    dates["instruction-ends"] = convert_date(dates["instruction-ends"])
+    dates["final-exams"] = convert_date(dates["final-exams"])
+    dates["fifteenth-day-of-instruction"] = convert_date(
+        dates["fifteenth-day-of-instruction"]
+    )
 
-    dates['holidays'] = [
-            {**holiday, "date": convert_date(holiday['date'])}
-            for holiday in dates['holidays']
+    dates["holidays"] = [
+        {**holiday, "date": convert_date(holiday["date"])}
+        for holiday in dates["holidays"]
     ]
 
     return dates
+
 
 def generate_datestring_latex(date_of_sunday_week_0):
     lines = []
@@ -52,14 +57,14 @@ def generate_datestring_latex(date_of_sunday_week_0):
             fmt = "%a, %b %-d" if show_month == 1 else "%a %-d"
             datestr = current_date.strftime(fmt)
             if show_month:
-                datestr = f'\\textbf{{{datestr.upper()}}}'
-            line = f'\pgfkeyssetvalue{{/date/{week}/{day}}}{{{datestr}}}'
+                datestr = f"\\textbf{{{datestr.upper()}}}"
+            line = f"\pgfkeyssetvalue{{/date/{week}/{day}}}{{{datestr}}}"
             current_date += datetime.timedelta(days=1)
             lines.append(line)
 
-    lines.append('')
+    lines.append("")
 
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def generate_highlights_latex(dates: dict, date_of_sunday_week_0: datetime.date) -> str:
@@ -70,44 +75,46 @@ def generate_highlights_latex(dates: dict, date_of_sunday_week_0: datetime.date)
 
     lines = []
 
-    week, day = get_week_and_day(dates['instruction-starts'])
+    week, day = get_week_and_day(dates["instruction-starts"])
     lines.append(
-        f'\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\info{{Instruction Starts}}}}'
+        f"\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\info{{Instruction Starts}}}}"
     )
-    week, day = get_week_and_day(dates['instruction-ends'])
+    week, day = get_week_and_day(dates["instruction-ends"])
     lines.append(
-        f'\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\info{{Instruction Ends}}}}'
+        f"\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\info{{Instruction Ends}}}}"
     )
 
-    for holiday in dates['holidays']:
-        dates = holiday['date']
+    for holiday in dates["holidays"]:
+        dates = holiday["date"]
         if isinstance(dates, datetime.date):
             dates = [dates]
 
         for date in dates:
             week, day = get_week_and_day(date)
-            name = holiday['name']
+            name = holiday["name"]
             lines.append(
-                f'\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\holiday{{{name}}}}}'
+                f"\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\holiday{{{name}}}}}"
             )
 
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def generate_cell_latex(dates: dict) -> str:
     """Generates LaTeX for setting the date that is displayed in each cell."""
-    if dates['instruction-starts'].weekday() == 0:
+    if dates["instruction-starts"].weekday() == 0:
         # begins on a Monday; there is no week 0
-        date_of_sunday_week_0 = dates['instruction-starts'] - datetime.timedelta(days=8)
-    elif dates['instruction-starts'].weekday() == 3:
+        date_of_sunday_week_0 = dates["instruction-starts"] - datetime.timedelta(days=8)
+    elif dates["instruction-starts"].weekday() == 3:
         # begins on a Thursday; there is a week 0
-        date_of_sunday_week_0 = dates['instruction-starts'] - datetime.timedelta(days=4)
+        date_of_sunday_week_0 = dates["instruction-starts"] - datetime.timedelta(days=4)
     else:
-        raise RuntimeError(f"Start of instruction {dates['instruction-starts']} not on Thursday or Monday.")
+        raise RuntimeError(
+            f"Start of instruction {dates['instruction-starts']} not on Thursday or Monday."
+        )
 
     datestring_latex = generate_datestring_latex(date_of_sunday_week_0)
     highlights_latex = generate_highlights_latex(dates, date_of_sunday_week_0)
-    latex = '\n\n'.join([datestring_latex, highlights_latex])
+    latex = "\n\n".join([datestring_latex, highlights_latex])
 
     return latex
 
@@ -117,6 +124,7 @@ def run_safe(cmd, cwd):
     if result.returncode != 0:
         print(result.stdout)
         print(result.stderr)
+
 
 def make_planner(quarter_dates_filepath: pathlib.Path):
     """Makes a quarter planner PDF.
@@ -129,11 +137,11 @@ def make_planner(quarter_dates_filepath: pathlib.Path):
 
     """
     stem = quarter_dates_filepath.stem
-    quarter_name = stem.replace('-', ' ')
+    quarter_name = stem.replace("-", " ")
 
     dates = load_dates(quarter_dates_filepath)
 
-    year = dates['academic-year'][0]
+    year = dates["academic-year"][0]
     output_path = ROOT / "pdf" / f"{year}-{year+1}" / (stem + ".pdf")
 
     print(f"Building {output_path.name}...")
@@ -144,11 +152,11 @@ def make_planner(quarter_dates_filepath: pathlib.Path):
             print(f"{output_path.name} up-to-date")
             return
 
-    if dates['instruction-starts'] is None:
+    if dates["instruction-starts"] is None:
         print("No date given for start of instruction. Aborting!")
         return
 
-    with (ROOT / 'template.tex').open() as fileobj:
+    with (ROOT / "template.tex").open() as fileobj:
         template = fileobj.read()
 
     dates_latex = generate_cell_latex(dates)
@@ -162,7 +170,7 @@ def make_planner(quarter_dates_filepath: pathlib.Path):
             fileobj.write(latex)
 
         run_safe(LATEXMKCMD, cwd=filepath.parent)
-        run_safe(f'mv _build/planner.pdf {output_path}', cwd=filepath.parent)
+        run_safe(f"mv _build/planner.pdf {output_path}", cwd=filepath.parent)
 
 
 if __name__ == "__main__":

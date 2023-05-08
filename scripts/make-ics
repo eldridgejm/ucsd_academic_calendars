@@ -24,28 +24,28 @@ def make_ics(quarter_dates_filepath: pathlib.Path):
         event.make_all_day()
         calendar.events.add(event)
 
-    if dates['instruction-starts'] is None:
+    if dates["instruction-starts"] is None:
         print("No instruction start date given. Aborting!")
         return
 
-    add_event("Instruction starts", dates['instruction-starts'])
-    add_event("Instruction ends", dates['instruction-ends'])
+    add_event("Instruction starts", dates["instruction-starts"])
+    add_event("Instruction ends", dates["instruction-ends"])
 
-    for holiday in dates['holidays']:
-        holiday_dates = holiday['date']
+    for holiday in dates["holidays"]:
+        holiday_dates = holiday["date"]
         if not isinstance(holiday_dates, list):
             holiday_dates = [holiday_dates]
         for date in holiday_dates:
-            name = holiday['name'].replace('Holiday', '').strip()
+            name = holiday["name"].replace("Holiday", "").strip()
             add_event(f"UCSD Holiday: {name}", date)
 
-    year = dates['academic-year'][0]
+    year = dates["academic-year"][0]
     stem = quarter_dates_filepath.stem
     output_path = ROOT / "ics" / f"{year}-{year+1}" / (stem + ".ics")
 
     output_path.parent.mkdir(exist_ok=True, parents=True)
 
-    with output_path.open('w') as fileobj:
+    with output_path.open("w") as fileobj:
         fileobj.writelines(calendar.serialize_iter())
 
 
@@ -57,17 +57,17 @@ def make_full_year_ics(dirpath: pathlib.Path):
         with path.open() as fileobj:
             new_calendar.events |= Calendar(fileobj.read()).events
 
-    output_path = dirpath / ('Academic-Year-' + dirpath.name + '.ics')
+    output_path = dirpath / ("Academic-Year-" + dirpath.name + ".ics")
 
-    with output_path.open('w') as fileobj:
+    with output_path.open("w") as fileobj:
         fileobj.writelines(new_calendar.serialize_iter())
 
 
 if __name__ == "__main__":
-    for filepath in (ROOT / 'json').glob('**/*.json'):
+    for filepath in (ROOT / "json").glob("**/*.json"):
         make_ics(filepath)
 
-    for dirpath in (ROOT / 'ics').iterdir():
+    for dirpath in (ROOT / "ics").iterdir():
         if not dirpath.is_dir():
             continue
         make_full_year_ics(dirpath)
