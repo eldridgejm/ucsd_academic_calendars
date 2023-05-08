@@ -43,4 +43,6 @@ using the `make-pdf` and `make-ics` commands, respectively.
 UCSD's academic calendar webpage has minor differences in formatting from
 year-to-year, so it's not unlikely that the scraping script will fail for some
 future year. If so, it might be easiest to make *ad hoc* changes to the JSON
-files directly; the PDFs and ICS files can then be built as usual.
+files directly; the PDFs and ICS files can then be built as usual. Writing a scraper to
+get the dates was overkill anyways (400 lines of Python to get ~20 dates per
+academic year...: )
