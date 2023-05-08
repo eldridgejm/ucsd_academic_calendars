@@ -49,8 +49,10 @@ def generate_datestring_latex(date_of_sunday_week_0):
         for day in range(1, 8):
             # only show month on first day of the month
             show_month = (week == 0 and day == 1) or (current_date.day == 1)
-            fmt = "%b %-d" if show_month == 1 else "%-d"
+            fmt = "%a, %b %-d" if show_month == 1 else "%a %-d"
             datestr = current_date.strftime(fmt)
+            if show_month:
+                datestr = f'\\textbf{{{datestr.upper()}}}'
             line = f'\pgfkeyssetvalue{{/date/{week}/{day}}}{{{datestr}}}'
             current_date += datetime.timedelta(days=1)
             lines.append(line)
@@ -63,7 +65,7 @@ def generate_datestring_latex(date_of_sunday_week_0):
 def generate_highlights_latex(dates: dict, date_of_sunday_week_0: datetime.date) -> str:
     def get_week_and_day(date):
         delta = (date - date_of_sunday_week_0).days
-        week, day = delta // 7, delta % 7
+        week, day = delta // 7, delta % 7 + 1
         return week, day
 
     lines = []
@@ -99,7 +101,7 @@ def generate_cell_latex(dates: dict) -> str:
         date_of_sunday_week_0 = dates['instruction-starts'] - datetime.timedelta(days=8)
     elif dates['instruction-starts'].weekday() == 3:
         # begins on a Thursday; there is a week 0
-        date_of_sunday_week_0 = dates['instruction-starts'] - datetime.timedelta(days=5)
+        date_of_sunday_week_0 = dates['instruction-starts'] - datetime.timedelta(days=4)
     else:
         raise RuntimeError(f"Start of instruction {dates['instruction-starts']} not on Thursday or Monday.")
 
