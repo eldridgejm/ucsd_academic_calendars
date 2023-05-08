@@ -6,8 +6,8 @@ usage: scrape-data <year>
 The year should be the first year in the academic year. For instance, to get the dates
 for 2022-23, call `scrape-data 2022`.
 
-The results are written to `dates/<academic year>/<quarter>.json` (e.g.,
-`dates/2022-2023/fall.json`), and will look like the following:
+The results are written to `json/<academic year>/<quarter>.json` (e.g.,
+`json/2022-2023/fall.json`), and will look like the following:
 
     {
         "quarter-starts": "2022-09-19",
@@ -404,7 +404,7 @@ def write_dates(dates: dict, year: int, quarter: str):
     dates['quarter'] = quarter
     dates['academic-year'] = [year, year+1]
 
-    dates_dir = pathlib.Path(__file__).parent.parent / 'dates'
+    dates_dir = pathlib.Path(__file__).parent.parent / 'json'
     filepath = dates_dir / f"{year}-{year+1}" / (normalized_quarter + ".json")
 
     filepath.parent.mkdir(exist_ok=True)

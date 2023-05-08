@@ -11,7 +11,7 @@ from pprint import pprint
 
 
 ROOT = pathlib.Path(__file__).parent.parent
-DATES_DIRPATH = ROOT / 'dates'
+JSON_DIRPATH = ROOT / 'json'
 
 LATEXMKCMD = 'latexmk -xelatex -outdir=_build -interaction=nonstopmode'
 
@@ -134,7 +134,7 @@ def make_planner(quarter_dates_filepath: pathlib.Path):
     dates = load_dates(quarter_dates_filepath)
 
     year = dates['academic-year'][0]
-    output_path = ROOT / "planners" / f"{year}-{year+1}" / (stem + ".pdf")
+    output_path = ROOT / "pdf" / f"{year}-{year+1}" / (stem + ".pdf")
 
     print(f"Building {output_path.name}...")
     output_path.parent.mkdir(exist_ok=True, parents=True)
@@ -166,6 +166,6 @@ def make_planner(quarter_dates_filepath: pathlib.Path):
 
 
 if __name__ == "__main__":
-    filepath = DATES_DIRPATH / "2022-2023/Winter-2023.json"
-    for filepath in DATES_DIRPATH.glob("**/*.json"):
+    filepath = JSON_DIRPATH / "2022-2023/Winter-2023.json"
+    for filepath in JSON_DIRPATH.glob("**/*.json"):
         make_planner(filepath)
