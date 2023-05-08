@@ -10,14 +10,14 @@ This repository contains UCSD academic calendars in a variety of formats:
 - Fall 2022 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2022-2023/Fall-2022.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2022-2023/Fall-2022.ics))
 - Winter 2023 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2022-2023/Winter-2023.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2022-2023/Winter-2023.ics))
 - Spring 2023 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2022-2023/Spring-2023.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2022-2023/Spring-2023.ics))
-- Academic Year Calendar ([ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2022-2023/2022-2023.ics)))
+- Academic Year Calendar ([ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2022-2023/2022-2023.ics))
 
 **Next Academic Year (2023-24)**
 
 - Fall 2023 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2023-2024/Fall-2023.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2023-2024/Fall-2023.ics))
 - Winter 2024 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2023-2024/Winter-2024.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2023-2024/Winter-2024.ics))
 - Spring 2024 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2023-2024/Spring-2024.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2023-2024/Spring-2024.ics))
-- Academic Year Calendar ([ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2023-2024/2023-2024.ics)))
+- Academic Year Calendar ([ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2023-2024/2023-2024.ics))
 
 ## Technical Details
 
