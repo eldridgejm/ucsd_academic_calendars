@@ -1,0 +1,169 @@
+#! /usr/bin/env python
+
+
+import datetime
+import json
+import pathlib
+import subprocess
+import tempfile
+
+from pprint import pprint
+
+
+ROOT = pathlib.Path(__file__).parent.parent
+DATES_DIRPATH = ROOT / 'dates'
+
+LATEXMKCMD = 'latexmk -xelatex -outdir=_build -interaction=nonstopmode'
+
+def load_dates(filepath):
+    """Reads the dates from the JSON file containing them. Converts to datetime objects."""
+    def convert_date(date):
+        if date is None:
+            return None
+        if isinstance(date, list):
+            return [convert_date(x) for x in date]
+        else:
+            return datetime.datetime.strptime(date, "%Y-%m-%d").date()
+
+    with filepath.open() as fileobj:
+        dates = json.load(fileobj)
+
+    dates['quarter-starts'] = convert_date(dates['quarter-starts'])
+    dates['quarter-ends'] = convert_date(dates['quarter-ends'])
+    dates['instruction-starts'] = convert_date(dates['instruction-starts'])
+    dates['instruction-ends'] = convert_date(dates['instruction-ends'])
+    dates['final-exams'] = convert_date(dates['final-exams'])
+    dates['fifteenth-day-of-instruction'] = convert_date(dates['fifteenth-day-of-instruction'])
+
+    dates['holidays'] = [
+            {**holiday, "date": convert_date(holiday['date'])}
+            for holiday in dates['holidays']
+    ]
+
+    return dates
+
+def generate_datestring_latex(date_of_sunday_week_0):
+    lines = []
+    current_date = date_of_sunday_week_0
+    for week in range(12):
+        for day in range(1, 8):
+            # only show month on first day of the month
+            show_month = (week == 0 and day == 1) or (current_date.day == 1)
+            fmt = "%b %-d" if show_month == 1 else "%-d"
+            datestr = current_date.strftime(fmt)
+            line = f'\pgfkeyssetvalue{{/date/{week}/{day}}}{{{datestr}}}'
+            current_date += datetime.timedelta(days=1)
+            lines.append(line)
+
+    lines.append('')
+
+    return '\n'.join(lines)
+
+
+def generate_highlights_latex(dates: dict, date_of_sunday_week_0: datetime.date) -> str:
+    def get_week_and_day(date):
+        delta = (date - date_of_sunday_week_0).days
+        week, day = delta // 7, delta % 7
+        return week, day
+
+    lines = []
+
+    week, day = get_week_and_day(dates['instruction-starts'])
+    lines.append(
+        f'\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\info{{Instruction Starts}}}}'
+    )
+    week, day = get_week_and_day(dates['instruction-ends'])
+    lines.append(
+        f'\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\info{{Instruction Ends}}}}'
+    )
+
+    for holiday in dates['holidays']:
+        dates = holiday['date']
+        if isinstance(dates, datetime.date):
+            dates = [dates]
+
+        for date in dates:
+            week, day = get_week_and_day(date)
+            name = holiday['name']
+            lines.append(
+                f'\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\holiday{{{name}}}}}'
+            )
+
+    return '\n'.join(lines)
+
+
+def generate_cell_latex(dates: dict) -> str:
+    """Generates LaTeX for setting the date that is displayed in each cell."""
+    if dates['instruction-starts'].weekday() == 0:
+        # begins on a Monday; there is no week 0
+        date_of_sunday_week_0 = dates['instruction-starts'] - datetime.timedelta(days=8)
+    elif dates['instruction-starts'].weekday() == 3:
+        # begins on a Thursday; there is a week 0
+        date_of_sunday_week_0 = dates['instruction-starts'] - datetime.timedelta(days=5)
+    else:
+        raise RuntimeError(f"Start of instruction {dates['instruction-starts']} not on Thursday or Monday.")
+
+    datestring_latex = generate_datestring_latex(date_of_sunday_week_0)
+    highlights_latex = generate_highlights_latex(dates, date_of_sunday_week_0)
+    latex = '\n\n'.join([datestring_latex, highlights_latex])
+
+    return latex
+
+
+def run_safe(cmd, cwd):
+    result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=cwd)
+    if result.returncode != 0:
+        print(result.stdout)
+        print(result.stderr)
+
+def make_planner(quarter_dates_filepath: pathlib.Path):
+    """Makes a quarter planner PDF.
+
+    Parameters
+    ----------
+    quarter_dates_filepath : pathlib.Path
+        Path to the JSON file containing the dates for the quarter. This assumes that it
+        is a hyphenated string ending with the year.
+
+    """
+    stem = quarter_dates_filepath.stem
+    quarter_name = stem.replace('-', ' ')
+
+    dates = load_dates(quarter_dates_filepath)
+
+    year = dates['academic-year'][0]
+    output_path = ROOT / "planners" / f"{year}-{year+1}" / (stem + ".pdf")
+
+    print(f"Building {output_path.name}...")
+    output_path.parent.mkdir(exist_ok=True, parents=True)
+
+    if output_path.exists():
+        if output_path.stat().st_mtime > quarter_dates_filepath.stat().st_mtime:
+            print(f"{output_path.name} up-to-date")
+            return
+
+    if dates['instruction-starts'] is None:
+        print("No date given for start of instruction. Aborting!")
+        return
+
+    with (ROOT / 'template.tex').open() as fileobj:
+        template = fileobj.read()
+
+    dates_latex = generate_cell_latex(dates)
+    latex = template.replace("% :::REPLACE:::", dates_latex)
+
+    latex = latex.replace(":::QUARTER NAME:::", quarter_name)
+
+    with tempfile.TemporaryDirectory() as tempdir:
+        filepath = pathlib.Path(tempdir) / "planner.tex"
+        with filepath.open("w") as fileobj:
+            fileobj.write(latex)
+
+        run_safe(LATEXMKCMD, cwd=filepath.parent)
+        run_safe(f'mv _build/planner.pdf {output_path}', cwd=filepath.parent)
+
+
+if __name__ == "__main__":
+    filepath = DATES_DIRPATH / "2022-2023/Winter-2023.json"
+    for filepath in DATES_DIRPATH.glob("**/*.json"):
+        make_planner(filepath)

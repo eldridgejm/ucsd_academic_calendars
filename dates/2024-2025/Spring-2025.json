@@ -19,5 +19,10 @@
             "date": "2025-05-26",
             "during-instruction": true
         }
+    ],
+    "quarter": "Spring 2025",
+    "academic-year": [
+        2024,
+        2025
     ]
 }

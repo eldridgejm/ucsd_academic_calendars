@@ -5,5 +5,10 @@
     "instruction-ends": null,
     "final-exams": null,
     "fifteenth-day-of-instruction": null,
-    "holidays": []
+    "holidays": [],
+    "quarter": "Summer Special Session 2023",
+    "academic-year": [
+        2022,
+        2023
+    ]
 }

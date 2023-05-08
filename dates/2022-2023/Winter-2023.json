@@ -19,5 +19,10 @@
             "date": "2023-02-20",
             "during-instruction": true
         }
+    ],
+    "quarter": "Winter 2023",
+    "academic-year": [
+        2022,
+        2023
     ]
 }

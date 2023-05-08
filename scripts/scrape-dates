@@ -400,6 +400,10 @@ def write_dates(dates: dict, year: int, quarter: str):
     normalized_quarter = quarter.replace("Quarter", "").strip()
     normalized_quarter = "-".join(normalized_quarter.split())
 
+    dates = dates.copy()
+    dates['quarter'] = quarter
+    dates['academic-year'] = [year, year+1]
+
     dates_dir = pathlib.Path(__file__).parent.parent / 'dates'
     filepath = dates_dir / f"{year}-{year+1}" / (normalized_quarter + ".json")
 

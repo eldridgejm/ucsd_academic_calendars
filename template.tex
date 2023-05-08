@@ -11,7 +11,7 @@
 \usepackage[mathrm=sym]{unicode-math}
 \usepackage[usefilenames]{firamath-otf}
 
-\newcommand{\quartername}{Summer Session I 2022}
+\newcommand{\quartername}{:::QUARTER NAME:::}
 
 \newcommand{\revised}{May 2023}
 
@@ -21,7 +21,15 @@
 \newcommand{\daywidth}{1.077}
 
 \newcommand{\holiday}[1]{%
+    \small
     \textcolor{red}{%
+        \textbf{#1}
+    }
+}
+
+\newcommand{\info}[1]{%
+    \small
+    \textcolor{blue}{%
         \textbf{#1}
     }
 }
@@ -38,8 +46,10 @@
     7/.initial = Sat.,
 }
 
-\pgfkeyssetvalue{/notes/2/4}{\holiday{hello this is a test of this}}
-\pgfkeyssetvalue{/notes/5/1}{\holiday{Cesar Chavez Day}}
+% the line below will be replaced by the make-planners script
+% :::REPLACE:::
+% example: \pgfkeyssetvalue{/date/0/2}{Mar. 3}
+
 
 \begin{document}
 
@@ -72,12 +82,12 @@
         \pgfmathsetmacro{\xoffset}{\leftgap + (\daynumber - 1) * (\daywidth)}
         \draw[very thick] (\xoffset, \yoffset) rectangle (\xoffset+\daywidth, \yoffset + \weekheight);
 
-        \node[anchor=north west] at (\xoffset, \yoffset) {\pgfkeys{/weekdays/\daynumber}};
+        \node[anchor=north west] at (\xoffset, \yoffset) {\pgfkeys{/date/\weeknumber/\daynumber}};
 
-        % note node
-        \node[anchor=north west, text width=\daywidth in, align=left] at (\xoffset, \yoffset+.2) {
-            \pgfkeysifdefined{/notes/\weeknumber/\daynumber}{
-                \pgfkeys{/notes/\weeknumber/\daynumber}
+        % highlight node
+        \node[anchor=north west, text width=.95*\daywidth in, align=left] at (\xoffset, \yoffset+.2) {
+            \pgfkeysifdefined{/highlights/\weeknumber/\daynumber}{
+                \pgfkeys{/highlights/\weeknumber/\daynumber}
             }{}
         };
     }
