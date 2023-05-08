@@ -5,6 +5,8 @@ This repository contains UCSD academic calendars in a variety of formats:
 - `.ics` (iCalendar) files, for importing into Google Calendar, Apple Calendar, etc. (in the [`ics` directory](https://github.com/eldridgejm/ucsd_academic_calendars/tree/main/ics)).
 - `.json` files, for people who want to work with the dates programmatically (in the [`json` directory](https://github.com/eldridgejm/ucsd_academic_calendars/tree/main/json))
 
+For convenience, the files for the current and next academic years are linked below:
+
 **Current Academic Year (2022-23)**
 
 - Fall 2022 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2022-2023/Fall-2022.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2022-2023/Fall-2022.ics))
