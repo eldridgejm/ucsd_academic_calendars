@@ -56,8 +56,10 @@ def generate_datestring_latex(date_of_sunday_week_0):
             show_month = (week == 0 and day == 1) or (current_date.day == 1)
             fmt = "%a, %b %-d" if show_month == 1 else "%a %-d"
             datestr = current_date.strftime(fmt)
-            if show_month:
-                datestr = f"\\textbf{{{datestr.upper()}}}"
+            # highlight date only if the first day of the month
+            if (current_date.day == 1):
+                datestr = datestr.upper()
+                datestr = f"\\textbf{{{datestr}}}"
             line = f"\pgfkeyssetvalue{{/date/{week}/{day}}}{{{datestr}}}"
             current_date += datetime.timedelta(days=1)
             lines.append(line)
