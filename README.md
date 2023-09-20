@@ -5,16 +5,9 @@ This repository contains UCSD academic calendars in a variety of formats:
 - `.ics` (iCalendar) files, for importing into Google Calendar, Apple Calendar, etc. (in the [`ics` directory](https://github.com/eldridgejm/ucsd_academic_calendars/tree/main/ics)).
 - `.json` files, for people who want to work with the dates programmatically (in the [`json` directory](https://github.com/eldridgejm/ucsd_academic_calendars/tree/main/json))
 
-For convenience, the files for the current and next academic years are linked below:
+For convenience, the files for the current academic year are linked below:
 
-**Current Academic Year (2022-23)**
-
-- Fall 2022 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2022-2023/Fall-2022.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2022-2023/Fall-2022.ics))
-- Winter 2023 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2022-2023/Winter-2023.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2022-2023/Winter-2023.ics))
-- Spring 2023 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2022-2023/Spring-2023.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2022-2023/Spring-2023.ics))
-- Full Academic Year ([ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2022-2023/Academic-Year-2022-2023.ics))
-
-**Next Academic Year (2023-24)**
+**Current Academic Year (2023-24)**
 
 - Fall 2023 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2023-2024/Fall-2023.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2023-2024/Fall-2023.ics))
 - Winter 2024 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2023-2024/Winter-2024.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2023-2024/Winter-2024.ics))
