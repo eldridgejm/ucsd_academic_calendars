@@ -14,7 +14,7 @@ For convenience, the files for the current academic year are linked below:
 - Spring 2024 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2023-2024/Spring-2024.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2023-2024/Spring-2024.ics))
 - Full Academic Year ([ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2023-2024/Academic-Year-2023-2024.ics))
 
-- **Next Academic Year (2024-23)**
+**Next Academic Year (2024-23)**
 
 - Fall 2024 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2024-2025/Fall-2024.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2024-2025/Fall-2024.ics))
 - Winter 2025 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2024-2025/Winter-2025.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2024-2025/Winter-2025.ics))
