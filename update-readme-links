@@ -1,0 +1,56 @@
+#! /usr/bin/env python3
+
+"""Updates the links in the README.md file to point to the latest academic calendar.
+
+Usage:
+    update_readme_links <reference_year>
+
+This script takes a reference year (e.g., "2025") and:
+    - replaces all instances of the reference year in the README.md file with the next year (e.g., "2026").
+    - replaces all instances of the previous year (e.g., "2024") with the reference year (e.g., "2025").
+    - replaces all instances of the next year (e.g., "2026") with the year after that (e.g., "2027").
+
+If run at the beginning of the academic year (Fall quarter), the reference year should
+be the current calendar year.
+
+"""
+
+import argparse
+
+README_PATH = "README.md"
+
+
+def update_readme_links(reference_year: int):
+    previous_year = reference_year - 1
+    next_year = reference_year + 1
+    year_after_next = reference_year + 2
+
+    with open(README_PATH, "r") as file:
+        content = file.read()
+
+    content = content.replace(str(reference_year), "NEXT_YEAR_PLACEHOLDER")
+    content = content.replace(str(previous_year), "REFERENCE_YEAR_PLACEHOLDER")
+    content = content.replace(str(next_year), "YEAR_AFTER_NEXT_PLACEHOLDER")
+
+    content = content.replace("NEXT_YEAR_PLACEHOLDER", str(next_year))
+    content = content.replace("REFERENCE_YEAR_PLACEHOLDER", str(reference_year))
+    content = content.replace("YEAR_AFTER_NEXT_PLACEHOLDER", str(year_after_next))
+
+    with open(README_PATH, "w") as file:
+        file.write(content)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Update links in README.md to point to the latest academic calendar."
+    )
+    parser.add_argument(
+        "reference_year", type=int, help="The reference year (e.g., 2025)."
+    )
+    args = parser.parse_args()
+
+    update_readme_links(args.reference_year)
+
+
+if __name__ == "__main__":
+    main()

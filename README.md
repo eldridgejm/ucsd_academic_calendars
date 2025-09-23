@@ -7,14 +7,14 @@ This repository contains UCSD academic calendars in a variety of formats:
 
 For convenience, the files for the current academic year are linked below:
 
-**Current Academic Year (2024-25)**
+**Current Academic Year (2024-2025)**
 
 - Fall 2024 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2024-2025/Fall-2024.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2024-2025/Fall-2024.ics))
 - Winter 2025 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2024-2025/Winter-2025.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2024-2025/Winter-2025.ics))
 - Spring 2025 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2024-2025/Spring-2025.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2024-2025/Spring-2025.ics))
 - Full Academic Year ([ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2024-2025/Academic-Year-2024-2025.ics))
 
-**Next Academic Year (2025-26)**
+**Next Academic Year (2025-2026)**
 
 - Fall 2025 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2025-2026/Fall-2025.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2025-2026/Fall-2025.ics))
 - Winter 2026 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2025-2026/Winter-2026.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2025-2026/Winter-2026.ics))
