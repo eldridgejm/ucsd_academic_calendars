@@ -1,0 +1,28 @@
+{
+    "quarter-starts": "2027-03-24",
+    "quarter-ends": "2027-06-11",
+    "instruction-starts": "2027-03-29",
+    "instruction-ends": "2027-06-04",
+    "final-exams": [
+        "2027-06-05",
+        "2027-06-11"
+    ],
+    "fifteenth-day-of-instruction": "2027-04-16",
+    "holidays": [
+        {
+            "name": "C\u00e9sar Ch\u00e1vez\u00a0Holiday",
+            "date": "2027-03-26",
+            "during-instruction": false
+        },
+        {
+            "name": "Memorial Day observance",
+            "date": "2027-05-31",
+            "during-instruction": true
+        }
+    ],
+    "quarter": "Spring 2027",
+    "academic-year": [
+        2026,
+        2027
+    ]
+}

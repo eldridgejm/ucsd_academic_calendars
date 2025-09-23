@@ -60,7 +60,7 @@ def generate_datestring_latex(date_of_sunday_week_0):
             if (current_date.day == 1):
                 datestr = datestr.upper()
                 datestr = f"\\textbf{{{datestr}}}"
-            line = f"\pgfkeyssetvalue{{/date/{week}/{day}}}{{{datestr}}}"
+            line = f"\\pgfkeyssetvalue{{/date/{week}/{day}}}{{{datestr}}}"
             current_date += datetime.timedelta(days=1)
             lines.append(line)
 
@@ -79,11 +79,11 @@ def generate_highlights_latex(dates: dict, date_of_sunday_week_0: datetime.date)
 
     week, day = get_week_and_day(dates["instruction-starts"])
     lines.append(
-        f"\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\info{{Instruction Starts}}}}"
+        f"\\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\\info{{Instruction Starts}}}}"
     )
     week, day = get_week_and_day(dates["instruction-ends"])
     lines.append(
-        f"\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\info{{Instruction Ends}}}}"
+        f"\\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\\info{{Instruction Ends}}}}"
     )
 
     for holiday in dates["holidays"]:
@@ -95,7 +95,7 @@ def generate_highlights_latex(dates: dict, date_of_sunday_week_0: datetime.date)
             week, day = get_week_and_day(date)
             name = holiday["name"]
             lines.append(
-                f"\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\holiday{{{name}}}}}"
+                f"\\pgfkeyssetvalue{{/highlights/{week}/{day}}}{{\\holiday{{{name}}}}}"
             )
 
     return "\n".join(lines)

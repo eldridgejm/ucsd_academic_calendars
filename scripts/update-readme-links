@@ -17,7 +17,7 @@ be the current calendar year.
 
 import argparse
 
-README_PATH = "README.md"
+README_PATH = "../README.md"
 
 
 def update_readme_links(reference_year: int):

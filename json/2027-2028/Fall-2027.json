@@ -1,0 +1,31 @@
+{
+    "quarter-starts": "2027-09-20",
+    "quarter-ends": "2027-12-11",
+    "instruction-starts": "2027-09-23",
+    "instruction-ends": "2027-12-03",
+    "final-exams": [
+        "2027-12-04",
+        "2027-12-11"
+    ],
+    "fifteenth-day-of-instruction": "2027-10-13",
+    "holidays": [
+        {
+            "name": "Veterans Day Holiday",
+            "date": "2027-11-11",
+            "during-instruction": true
+        },
+        {
+            "name": "Thanksgiving Holiday",
+            "date": [
+                "2027-11-25",
+                "2027-11-26"
+            ],
+            "during-instruction": true
+        }
+    ],
+    "quarter": "Fall 2027",
+    "academic-year": [
+        2027,
+        2028
+    ]
+}

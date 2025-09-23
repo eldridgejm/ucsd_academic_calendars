@@ -1,0 +1,39 @@
+{
+    "quarter-starts": "2025-09-22",
+    "quarter-ends": "2025-12-13",
+    "instruction-starts": "2025-09-25",
+    "instruction-ends": "2025-12-05",
+    "final-exams": [
+        "2025-12-06",
+        "2025-12-13"
+    ],
+    "fifteenth-day-of-instruction": "2025-10-15",
+    "holidays": [
+        {
+            "name": "Veterans Day Holiday",
+            "date": "2025-11-11",
+            "during-instruction": true
+        },
+        {
+            "name": "Thanksgiving Holiday",
+            "date": [
+                "2025-11-27",
+                "2025-11-28"
+            ],
+            "during-instruction": true
+        },
+        {
+            "name": "New Year Holiday",
+            "date": [
+                "2025-12-31",
+                "2025-01-01"
+            ],
+            "during-instruction": false
+        }
+    ],
+    "quarter": "Fall 2025",
+    "academic-year": [
+        2025,
+        2026
+    ]
+}

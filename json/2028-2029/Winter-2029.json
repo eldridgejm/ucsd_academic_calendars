@@ -1,0 +1,28 @@
+{
+    "quarter-starts": "2029-01-03",
+    "quarter-ends": "2029-03-24",
+    "instruction-starts": "2029-01-08",
+    "instruction-ends": "2029-03-16",
+    "final-exams": [
+        "2029-03-17",
+        "2029-03-24"
+    ],
+    "fifteenth-day-of-instruction": "2029-01-29",
+    "holidays": [
+        {
+            "name": "Martin Luther King, Jr. Holiday",
+            "date": "2029-01-15",
+            "during-instruction": true
+        },
+        {
+            "name": "Presidents' Day Holiday",
+            "date": "2029-02-19",
+            "during-instruction": true
+        }
+    ],
+    "quarter": "Winter 2029",
+    "academic-year": [
+        2028,
+        2029
+    ]
+}

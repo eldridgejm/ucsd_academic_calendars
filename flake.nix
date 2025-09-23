@@ -30,6 +30,8 @@
                   pkgs.python3.withPackages (p: [
                     p.requests
                     p.beautifulsoup4
+                    p.lxml
+                    p.ipython
                     p.ics
                     p.attrs
                   ])

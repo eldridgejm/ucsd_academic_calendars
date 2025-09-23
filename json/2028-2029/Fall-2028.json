@@ -1,0 +1,39 @@
+{
+    "quarter-starts": "2028-09-25",
+    "quarter-ends": "2028-12-16",
+    "instruction-starts": "2028-09-28",
+    "instruction-ends": "2028-12-08",
+    "final-exams": [
+        "2028-12-09",
+        "2028-12-16"
+    ],
+    "fifteenth-day-of-instruction": "2028-10-18",
+    "holidays": [
+        {
+            "name": "Veterans Day Holiday",
+            "date": "2028-11-10",
+            "during-instruction": true
+        },
+        {
+            "name": "Thanksgiving Holiday",
+            "date": [
+                "2028-11-23",
+                "2028-11-24"
+            ],
+            "during-instruction": true
+        },
+        {
+            "name": "New Year Holiday",
+            "date": [
+                "2028-01-01",
+                "2028-01-02"
+            ],
+            "during-instruction": false
+        }
+    ],
+    "quarter": "Fall 2028",
+    "academic-year": [
+        2028,
+        2029
+    ]
+}

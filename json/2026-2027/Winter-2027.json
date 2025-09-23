@@ -1,0 +1,28 @@
+{
+    "quarter-starts": "2027-01-04",
+    "quarter-ends": "2027-03-20",
+    "instruction-starts": "2027-01-04",
+    "instruction-ends": "2027-03-12",
+    "final-exams": [
+        "2027-03-13",
+        "2027-03-20"
+    ],
+    "fifteenth-day-of-instruction": "2027-01-25",
+    "holidays": [
+        {
+            "name": "Martin Luther King, Jr. Holiday",
+            "date": "2027-01-18",
+            "during-instruction": true
+        },
+        {
+            "name": "Presidents' Day Holiday",
+            "date": "2027-02-15",
+            "during-instruction": true
+        }
+    ],
+    "quarter": "Winter 2027",
+    "academic-year": [
+        2026,
+        2027
+    ]
+}

@@ -64,6 +64,7 @@ import json
 import pathlib
 import re
 import typing
+import warnings
 
 import bs4
 import requests
@@ -321,9 +322,15 @@ def parse_quarter_dates(rows: typing.List[bs4.BeautifulSoup], year: int) -> dict
 
         return {"name": desc, "date": date, "during-instruction": during_instruction}
 
-    dates["holidays"] = [
-        format_holiday_dict((desc, date)) for (desc, date) in pairs if is_holiday(desc)
-    ]
+    dates["holidays"] = []
+    raw_holidays = [(desc, date) for (desc, date) in pairs if is_holiday(desc)]
+
+    for (desc, date) in raw_holidays:
+        try:
+            holiday_dict = format_holiday_dict((desc, date))
+            dates["holidays"].append(holiday_dict)
+        except Exception as e:
+            warnings.warn(f"Could not parse holiday '{desc}' with date '{date}': {e}")
 
     return dates
 

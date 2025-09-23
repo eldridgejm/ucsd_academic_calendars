@@ -1,0 +1,28 @@
+{
+    "quarter-starts": "2026-01-02",
+    "quarter-ends": "2026-03-21",
+    "instruction-starts": "2026-01-05",
+    "instruction-ends": "2026-03-13",
+    "final-exams": [
+        "2026-03-14",
+        "2026-03-21"
+    ],
+    "fifteenth-day-of-instruction": "2026-01-26",
+    "holidays": [
+        {
+            "name": "Martin Luther King, Jr. Holiday",
+            "date": "2026-01-19",
+            "during-instruction": true
+        },
+        {
+            "name": "Presidents' Day Holiday",
+            "date": "2026-02-16",
+            "during-instruction": true
+        }
+    ],
+    "quarter": "Winter 2026",
+    "academic-year": [
+        2025,
+        2026
+    ]
+}

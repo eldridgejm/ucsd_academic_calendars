@@ -1,0 +1,28 @@
+{
+    "quarter-starts": "2026-03-25",
+    "quarter-ends": "2026-06-12",
+    "instruction-starts": "2026-03-30",
+    "instruction-ends": "2026-06-05",
+    "final-exams": [
+        "2026-06-06",
+        "2026-06-12"
+    ],
+    "fifteenth-day-of-instruction": "2026-04-17",
+    "holidays": [
+        {
+            "name": "C\u00e9sar Ch\u00e1vez\u00a0Holiday",
+            "date": "2026-03-27",
+            "during-instruction": false
+        },
+        {
+            "name": "Memorial Day observance",
+            "date": "2026-05-25",
+            "during-instruction": true
+        }
+    ],
+    "quarter": "Spring 2026",
+    "academic-year": [
+        2025,
+        2026
+    ]
+}

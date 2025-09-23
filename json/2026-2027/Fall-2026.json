@@ -1,0 +1,39 @@
+{
+    "quarter-starts": "2026-09-21",
+    "quarter-ends": "2026-12-12",
+    "instruction-starts": "2026-09-24",
+    "instruction-ends": "2026-12-04",
+    "final-exams": [
+        "2026-12-05",
+        "2026-12-12"
+    ],
+    "fifteenth-day-of-instruction": "2026-10-14",
+    "holidays": [
+        {
+            "name": "Veterans Day Holiday",
+            "date": "2026-11-11",
+            "during-instruction": true
+        },
+        {
+            "name": "Thanksgiving Holiday",
+            "date": [
+                "2026-11-26",
+                "2026-11-27"
+            ],
+            "during-instruction": true
+        },
+        {
+            "name": "New Year Holiday",
+            "date": [
+                "2026-12-31",
+                "2026-01-01"
+            ],
+            "during-instruction": false
+        }
+    ],
+    "quarter": "Fall 2026",
+    "academic-year": [
+        2026,
+        2027
+    ]
+}
