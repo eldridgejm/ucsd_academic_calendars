@@ -7,31 +7,31 @@ This repository contains UCSD academic calendars in a variety of formats:
 
 For convenience, the files for the current academic year are linked below:
 
-**Current Academic Year (2025-2026)**
-
-- Fall 2025 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2025-2026/Fall-2025.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2025-2026/Fall-2025.ics))
-- Winter 2026 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2025-2026/Winter-2026.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2025-2026/Winter-2026.ics))
-- Spring 2026 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2025-2026/Spring-2026.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2025-2026/Spring-2026.ics))
-- Full Academic Year ([ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2025-2026/Academic-Year-2025-2026.ics))
-
-**Next Academic Year (2026-2027)**
+**Current Academic Year (2026-2027)**
 
 - Fall 2026 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2026-2027/Fall-2026.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2026-2027/Fall-2026.ics))
 - Winter 2027 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2026-2027/Winter-2027.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2026-2027/Winter-2027.ics))
 - Spring 2027 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2026-2027/Spring-2027.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2026-2027/Spring-2027.ics))
 - Full Academic Year ([ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2026-2027/Academic-Year-2026-2027.ics))
 
+**Next Academic Year (2027-2028)**
+
+- Fall 2027 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2027-2028/Fall-2027.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2027-2028/Fall-2027.ics))
+- Winter 2028 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2027-2028/Winter-2028.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2027-2028/Winter-2028.ics))
+- Spring 2028 ([pdf](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/pdf/2027-2028/Spring-2028.pdf) | [ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2027-2028/Spring-2028.ics))
+- Full Academic Year ([ics](https://github.com/eldridgejm/ucsd_academic_calendars/raw/main/ics/2027-2028/Academic-Year-2027-2028.ics))
+
 ## Updating the Calendars
 
 Every few years, the next several years worth of academic calendars should be scraped.
 This can be done using the `scrape-dates` script in the `scripts` directory. For example,
-in 2026 we might run:
+in 2027 we might run:
 
 ```
-scrape-dates 2026
-scrape-dates 2027
 scrape-dates 2027
 scrape-dates 2028
+scrape-dates 2029
+scrape-dates 2030
 ```
 
 Following this, run `make-pdf` and `make-ics` to rebuild the PDF and ICS files from the
@@ -40,10 +40,10 @@ newly scraped JSON files.
 Each year, the links in this README should be updated to point to the current and next academic years.
 This can be done using the `update-readme-links` script in the `scripts` directory. This script
 takes one argument: a reference year. When run in the Fall of a given year, the reference year
-should be the current calendar year. For example, in Fall 2026 we would run:
+should be the current calendar year. For example, in Fall 2027 we would run:
 
 ```
-update-readme-links 2026
+update-readme-links 2027
 ```
 
 ## Technical Details
